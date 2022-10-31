@@ -1,0 +1,79 @@
+#######################################
+# Syntax Coloring Map For TMP112_thijs
+#######################################
+# Class (KEYWORD1)
+#######################################
+
+TMP112_thijs	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################	
+
+TMP112debugPrint	KEYWORD2
+TMP112_ERR_RETURN_TYPE  KEYWORD2
+TMP112_return_esp_err_t	KEYWORD2
+TMP112_return_i2c_status_e	KEYWORD2
+
+init			KEYWORD2
+requestReadBytes	KEYWORD2
+onlyReadBytes	KEYWORD2
+writeBytes		KEYWORD2
+
+requestReadInt	KEYWORD2
+onlyReadInt		KEYWORD2
+writeInt			KEYWORD2
+
+getTempInt	KEYWORD2
+getTemp			KEYWORD2
+
+setThighInt	KEYWORD2
+setTlowInt	KEYWORD2
+setThigh	KEYWORD2
+setTlow		KEYWORD2
+setSD		KEYWORD2
+setTM		KEYWORD2
+setPOL	KEYWORD2
+setFQ		KEYWORD2
+setOS		KEYWORD2
+setEM		KEYWORD2
+setCR		KEYWORD2
+
+getThighInt	KEYWORD2
+getTlowInt	KEYWORD2
+getThigh	KEYWORD2
+getTlow		KEYWORD2
+getSD		KEYWORD2
+getTM		KEYWORD2
+getPOL	KEYWORD2
+getFQ		KEYWORD2
+getRES	KEYWORD2
+getOS		KEYWORD2
+getEM		KEYWORD2
+getAL		KEYWORD2
+getCR		KEYWORD2
+
+connectionCheck	KEYWORD2
+printConfig		KEYWORD2
+resetConfig		KEYWORD2
+
+getOneShotWait	KEYWORD2
+onlyReadFloat		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+TMP112_ADDR_A0_to_GND		LITERAL1
+TMP112_ADDR_A0_to_VCC		LITERAL1
+TMP112_ADDR_A0_to_SDA		LITERAL1
+TMP112_ADDR_A0_to_SCL		LITERAL1
+TMP112_ADDR_TABLE		LITERAL1
+
+TMP112_TEMP		LITERAL1
+TMP112_CONF		LITERAL1
+TMP112_TLOW		LITERAL1
+TMP112_THIGH		LITERAL1
+TMP112_ADDR_TABLE		LITERAL1
+
+slaveAddress	LITERAL1

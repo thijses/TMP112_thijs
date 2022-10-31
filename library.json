@@ -1,0 +1,21 @@
+{
+  "name": "TMP112_thijs",
+  "version": "1.0.0",
+  "description": "A library for the TMP112 temperature sensor for atmega328p, ESP32, MSP430 or STM32 (or Wire.h)",
+  "keywords": "TMP112, I2C",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/thijses/TMP112_thijs.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Thijs van Liempd",
+      "email": "tttthijses@gmail.com"
+    }
+  ],
+  "frameworks": "arduino",
+  "platforms": ["atmelavr", "espressif32", "timsp430", "ststm32"],
+  "headers": "TMP112_thijs.h"
+}
