@@ -28,6 +28,7 @@ here is one example of some very basic arduino code someone else wrote: https://
 
 
 TODO:
+test 328p (both optimized and wireLib) i think the repeated start in requestReadBytes is probably fine, but i'd like to be sure
 STM32 alternate pins testing (& little table in a comment to help remind me which ones i can use...)
 put on github
 add arduino example sketch
@@ -318,6 +319,7 @@ class TMP112_thijs
     bool requestReadBytes(uint8_t registerToRead, uint8_t readBuff[], uint16_t bytesToRead) {
       if(!startWrite()) { return(false); }
       twiWrite(registerToRead);  //if(twoWireStatusReg != twi_SR_M_DAT_T_ACK) { return(false); } //should be ACK(?)
+      //TWCR = twi_STOP; // TODO: determine if required!
       if(!startRead()) { return(false); }
       for(uint16_t i=0; i<(bytesToRead-1); i++) {
         TWCR = twi_basic_ACK; //request several bytes
