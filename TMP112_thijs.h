@@ -101,7 +101,7 @@ class TMP112_thijs : public _TMP112_thijs_base
   using _TMP112_thijs_base::_TMP112_thijs_base;
   /*
   This class only contains the higher level functions.
-   for the base functions, please refer to _NT3H1x01_thijs_base.h
+   for the base functions, please refer to _TMP112_thijs_base.h
   here is a brief list of all the lower-level functions:
   - init()
   - requestReadBytes()
@@ -119,6 +119,21 @@ class TMP112_thijs : public _TMP112_thijs_base
   }
 
   public:
+
+  /**
+   * (just a macro) check whether an TMP112_ERR_RETURN_TYPE (which may be one of several different types) is fine or not 
+   * @param err (bool or esp_err_t or i2c_status_e, see on defines at top)
+   * @return whether the error is fine
+   */
+  bool _errGood(TMP112_ERR_RETURN_TYPE err) {
+    #if defined(TMP112_return_esp_err_t)
+      return(err == ESP_OK);
+    #elif defined(TMP112_return_i2c_status_e)
+      return(err == I2C_OK);
+    #else
+      return(err);
+    #endif
+  }
 
   /**
    * request a 2byte value from a register and assemble it into a regular signed interger
@@ -302,14 +317,7 @@ class TMP112_thijs : public _TMP112_thijs_base
   bool connectionCheck() { // returns true if the read was successfull and the RES matches 3 (like the datasheet claims it always should be for the TMP112)
     uint8_t readBuff[2];
     TMP112_ERR_RETURN_TYPE readSuccess = requestReadBytes(TMP112_CONF, readBuff, 2); // first, check if the read was successfull at all
-    #if defined(TMP112_return_esp_err_t)
-      if(readSuccess != ESP_OK)
-    #elif defined(TMP112_return_i2c_status_e)
-      if(readSuccess != I2C_OK)
-    #else
-      if(!readSuccess)
-    #endif
-     { return(false); }
+    if(!_errGood(readSuccess)) { return(false); }
     uint8_t RES = (readBuff[0] & TMP112_RES_bits)>>5;
     return(RES == 3); // should always be 3 (according to the TMP112 datasheet)
   }
@@ -321,13 +329,7 @@ class TMP112_thijs : public _TMP112_thijs_base
   TMP112_ERR_RETURN_TYPE printConfig() { // prints contents of CONF register (somewhat efficiently)
     uint8_t readBuff[2]; // instead of calling all the functions above (which may actually take hundreds of millis at the lowest I2C freq this things supports), just get the CONF register once
     TMP112_ERR_RETURN_TYPE readSuccess = requestReadBytes(TMP112_CONF, readBuff, 2);
-    #if defined(TMP112_return_esp_err_t)
-      if(readSuccess == ESP_OK)
-    #elif defined(TMP112_return_i2c_status_e)
-      if(readSuccess == I2C_OK)
-    #else
-      if(readSuccess)
-    #endif
+    if(_errGood(readSuccess))
      {
       //Serial.println("printing config: ");
       Serial.print("ShutDown mode: "); Serial.println(readBuff[0] & TMP112_SD_bits);
