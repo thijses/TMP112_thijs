@@ -28,7 +28,6 @@ here is one example of some very basic arduino code someone else wrote: https://
 
 
 TODO:
-test 328p (both optimized and wireLib) i think the repeated start in requestReadBytes is probably fine, but i'd like to be sure
 STM32 alternate pins testing (& little table in a comment to help remind me which ones i can use...)
 put on github
 add arduino example sketch
@@ -89,11 +88,16 @@ test 328p (both optimized and wireLib)
 #endif
 
 // TMP112 address lookup table:
-#define TMP112_ADDR_A0_to_GND  0x48
-#define TMP112_ADDR_A0_to_VCC  0x49
-#define TMP112_ADDR_A0_to_SDA  0x4A
-#define TMP112_ADDR_A0_to_SCL  0x4B
-const uint8_t TMP112_ADDR_TABLE[4] = {TMP112_ADDR_A0_to_GND, TMP112_ADDR_A0_to_VCC, TMP112_ADDR_A0_to_SDA, TMP112_ADDR_A0_to_SCL}; // A0 connected to GND, V+, SDA or SCL respectively
+// #define TMP112_ADDR_A0_to_GND  0x48
+// #define TMP112_ADDR_A0_to_VCC  0x49
+// #define TMP112_ADDR_A0_to_SDA  0x4A
+// #define TMP112_ADDR_A0_to_SCL  0x4B
+enum TMP112_ADDR_TABLE : uint8_t {
+  TMP112_ADDR_A0_to_GND = 0x48,
+  TMP112_ADDR_A0_to_VCC = 0x49,
+  TMP112_ADDR_A0_to_SDA = 0x4A,
+  TMP112_ADDR_A0_to_SCL = 0x4B
+};
 
 //// TMP112 constants:
 // output registers:
@@ -147,7 +151,7 @@ class TMP112_thijs
   const uint8_t slaveAddress; //7-bit address
   const uint8_t SLA_W; // used by several platform-optimized sections.
   const uint8_t SLA_R; // might as well define as constant and avoid repeated caclulation (honestly insignificant, but whatever)
-  TMP112_thijs(const uint8_t address) : slaveAddress(address), SLA_W(( address <<1) | TW_WRITE), SLA_R(( address <<1) | TW_READ) {}
+  TMP112_thijs(TMP112_ADDR_TABLE address) : slaveAddress(address), SLA_W(( address <<1) | TW_WRITE), SLA_R(( address <<1) | TW_READ) {}
   
   #ifdef TMP112_useWireLib // higher level generalized (arduino wire library):
 
@@ -572,7 +576,7 @@ class TMP112_thijs
       I2C1: SDA: PA10, PB7, PB9
             SCL: PA9, PB6, PB8
       I2C3: SDA: PB4, PB11, PB14, PC1
-            SCL: PA7 PB10, PB13, PC0
+            SCL: PA7, PB10, PB13, PC0
     
     */
 
