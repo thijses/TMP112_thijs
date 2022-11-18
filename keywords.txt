@@ -21,6 +21,7 @@ requestReadBytes	KEYWORD2
 onlyReadBytes	KEYWORD2
 writeBytes		KEYWORD2
 
+_errGood			KEYWORD2
 requestReadInt	KEYWORD2
 onlyReadInt		KEYWORD2
 writeInt			KEYWORD2
