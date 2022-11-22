@@ -5,16 +5,24 @@
 #######################################
 
 TMP112_thijs	KEYWORD1
+_TMP112_thijs_base	KEYWORD1
+
+TMP112_ADDR_ENUM	KEYWORD2
+
+TMP112_ERR_RETURN_TYPE	KEYWORD2
+TMP112_ERR_RETURN_TYPE_default	KEYWORD2
+
+#######################################
+# Class properties (LITERAL1)
+#######################################
+
+slaveAddress	LITERAL1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################	
 
 TMP112debugPrint	KEYWORD2
-TMP112_ADDR_TABLE	KEYWORD2
-TMP112_ERR_RETURN_TYPE	KEYWORD2
-TMP112_return_esp_err_t	KEYWORD2
-TMP112_return_i2c_status_e	KEYWORD2
 
 init			KEYWORD2
 requestReadBytes	KEYWORD2
@@ -66,16 +74,15 @@ onlyReadFloat		KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
+TMP112_return_esp_err_t		LITERAL1
+TMP112_return_i2c_status_e	LITERAL1
+
 TMP112_ADDR_A0_to_GND		LITERAL1
 TMP112_ADDR_A0_to_VCC		LITERAL1
 TMP112_ADDR_A0_to_SDA		LITERAL1
 TMP112_ADDR_A0_to_SCL		LITERAL1
-TMP112_ADDR_TABLE		LITERAL1
 
 TMP112_TEMP		LITERAL1
 TMP112_CONF		LITERAL1
 TMP112_TLOW		LITERAL1
 TMP112_THIGH		LITERAL1
-TMP112_ADDR_TABLE		LITERAL1
-
-slaveAddress	LITERAL1

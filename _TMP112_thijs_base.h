@@ -75,7 +75,7 @@ class _TMP112_thijs_base
   const uint8_t slaveAddress; //7-bit address
   const uint8_t SLA_W; // used by several platform-optimized sections.
   const uint8_t SLA_R; // might as well define as constant and avoid repeated caclulation (honestly insignificant, but whatever)
-  _TMP112_thijs_base(TMP112_ADDR_TABLE address) : slaveAddress(address), SLA_W(( address <<1) | TW_WRITE), SLA_R(( address <<1) | TW_READ) {}
+  _TMP112_thijs_base(TMP112_ADDR_ENUM address) : slaveAddress(address), SLA_W(( address <<1) | TW_WRITE), SLA_R(( address <<1) | TW_READ) {}
   
   #ifdef TMP112_useWireLib // higher level generalized (arduino wire library):
 

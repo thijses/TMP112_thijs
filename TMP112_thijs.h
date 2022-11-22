@@ -28,12 +28,13 @@ here is one example of some very basic arduino code someone else wrote: https://
 
 
 TODO:
-STM32 alternate pins testing (& little table in a comment to help remind me which ones i can use...)
-put on github
-add arduino example sketch
-add example sketch filenames to library.json
-test ESP32 with useWireLib   also, test if 'static' vars in the ESP32 code actually are static (connect 2 sensors?)
-test 328p (both optimized and wireLib)
+- STM32 alternate pins testing
+- add example sketch filenames to library.json
+- test ESP32 with useWireLib
+- test 328p (both optimized and wireLib)
+- check Wire.h function return values for I2C errors
+- test if 'static' vars in the ESP32 functions actually are static (connect 2 sensors?)
+
 */
 
 #ifndef TMP112_thijs_h
@@ -54,7 +55,7 @@ test 328p (both optimized and wireLib)
 // #define TMP112_ADDR_A0_to_VCC  0x49
 // #define TMP112_ADDR_A0_to_SDA  0x4A
 // #define TMP112_ADDR_A0_to_SCL  0x4B
-enum TMP112_ADDR_TABLE : uint8_t {
+enum TMP112_ADDR_ENUM : uint8_t {
   TMP112_ADDR_A0_to_GND = 0x48,
   TMP112_ADDR_A0_to_VCC = 0x49,
   TMP112_ADDR_A0_to_SDA = 0x4A,
