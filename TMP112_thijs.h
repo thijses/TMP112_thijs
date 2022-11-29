@@ -34,6 +34,7 @@ TODO:
 - test 328p (both optimized and wireLib)
 - check Wire.h function return values for I2C errors
 - test if 'static' vars in the ESP32 functions actually are static (connect 2 sensors?)
+- generalized memory map struct (also for other libraries). Could just be an enum, i just don't love #define
 
 */
 

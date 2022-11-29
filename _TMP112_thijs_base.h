@@ -73,9 +73,7 @@ class _TMP112_thijs_base
   public:
   //// I2C constants:
   const uint8_t slaveAddress; //7-bit address
-  const uint8_t SLA_W; // used by several platform-optimized sections.
-  const uint8_t SLA_R; // might as well define as constant and avoid repeated caclulation (honestly insignificant, but whatever)
-  _TMP112_thijs_base(TMP112_ADDR_ENUM address) : slaveAddress(address), SLA_W(( address <<1) | TW_WRITE), SLA_R(( address <<1) | TW_READ) {}
+  _TMP112_thijs_base(TMP112_ADDR_ENUM address) : slaveAddress(address) {}
   
   #ifdef TMP112_useWireLib // higher level generalized (arduino wire library):
 
@@ -204,7 +202,7 @@ class _TMP112_thijs_base
     inline bool startWrite() {
       TWCR = twi_START; //send start
       twoWireTransferWait();
-      twiWrite(SLA_W);
+      twiWrite((slaveAddress << 1) | TW_WRITE);
       if(twoWireStatusReg != twi_SR_M_SLA_W_ACK) { TMP112debugPrint("SLA_W ack error"); TWCR = twi_STOP; return(false); }
       return(true);
     }
@@ -212,7 +210,7 @@ class _TMP112_thijs_base
     inline bool startRead() {
       TWCR = twi_START; //repeated start
       twoWireTransferWait();
-      twiWrite(SLA_R);
+      twiWrite((slaveAddress << 1) | TW_READ);
       if(twoWireStatusReg != twi_SR_M_SLA_R_ACK) { TMP112debugPrint("SLA_R ack error"); TWCR = twi_STOP; return(false); }
       return(true);
     }
@@ -349,10 +347,10 @@ class _TMP112_thijs_base
 //      uint8_t CMDbuffer[SIZEOF_I2C_CMD_DESC_T + SIZEOF_I2C_CMD_LINK_T * numberOfCommands] = { 0 };
 //      i2c_cmd_handle_t cmd = i2c_cmd_link_create_static(CMDbuffer, sizeof(CMDbuffer)); //create a CMD sequence
 //      i2c_master_start(cmd);
-//      i2c_master_write_byte(cmd, SLA_W, ACK_CHECK_EN);
+//      i2c_master_write_byte(cmd, (slaveAddress << 1) | TW_WRITE, ACK_CHECK_EN);
 //      i2c_master_write_byte(cmd, registerToRead, ACK_CHECK_DIS);
 //      i2c_master_start(cmd);
-//      i2c_master_write_byte(cmd, SLA_R, ACK_CHECK_EN);
+//      i2c_master_write_byte(cmd, (slaveAddress << 1) | TW_READ, ACK_CHECK_EN);
 //      i2c_master_read(cmd, readBuff, bytesToRead, I2C_MASTER_LAST_NACK);
 //      i2c_master_stop(cmd);
 //      esp_err_t err = i2c_master_cmd_begin(I2Cport, cmd, I2Ctimeout / portTICK_RATE_MS);
@@ -379,7 +377,7 @@ class _TMP112_thijs_base
 //      uint8_t CMDbuffer[SIZEOF_I2C_CMD_DESC_T + SIZEOF_I2C_CMD_LINK_T * numberOfCommands] = { 0 };
 //      i2c_cmd_handle_t cmd = i2c_cmd_link_create_static(CMDbuffer, sizeof(CMDbuffer)); //create a CMD sequence
 //      i2c_master_start(cmd);
-//      i2c_master_write_byte(cmd, SLA_R, ACK_CHECK_EN);
+//      i2c_master_write_byte(cmd, (slaveAddress << 1) | TW_READ, ACK_CHECK_EN);
 //      i2c_master_read(cmd, readBuff, bytesToRead, I2C_MASTER_LAST_NACK);
 //      i2c_master_stop(cmd);
 //      esp_err_t err = i2c_master_cmd_begin(I2Cport, cmd, I2Ctimeout / portTICK_RATE_MS);
@@ -407,7 +405,7 @@ class _TMP112_thijs_base
       uint8_t CMDbuffer[SIZEOF_I2C_CMD_DESC_T + SIZEOF_I2C_CMD_LINK_T * numberOfCommands] = { 0 };
       i2c_cmd_handle_t cmd = i2c_cmd_link_create_static(CMDbuffer, sizeof(CMDbuffer)); //create a CMD sequence
       i2c_master_start(cmd);
-      i2c_master_write_byte(cmd, SLA_W, ACK_CHECK_EN);
+      i2c_master_write_byte(cmd, (slaveAddress << 1) | TW_WRITE, ACK_CHECK_EN);
       i2c_master_write_byte(cmd, registerToWrite, ACK_CHECK_DIS);
       i2c_master_write(cmd, writeBuff, bytesToWrite, ACK_CHECK_DIS);
       i2c_master_stop(cmd);
