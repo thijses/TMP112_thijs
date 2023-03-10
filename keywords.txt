@@ -4,13 +4,13 @@
 # Class (KEYWORD1)
 #######################################
 
-TMP112_thijs	KEYWORD1
-_TMP112_thijs_base	KEYWORD1
+TMP112_thijs	                  KEYWORD1
+_TMP112_thijs_base	            KEYWORD1
 
-TMP112_ADDR_ENUM	KEYWORD2
+TMP112_ADDR_ENUM	              KEYWORD1
 
-TMP112_ERR_RETURN_TYPE	KEYWORD2
-TMP112_ERR_RETURN_TYPE_default	KEYWORD2
+TMP112_ERR_RETURN_TYPE	        KEYWORD1
+TMP112_ERR_RETURN_TYPE_default	KEYWORD1
 
 #######################################
 # Class properties (LITERAL1)
