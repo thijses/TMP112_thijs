@@ -63,6 +63,8 @@ enum TMP112_ADDR_ENUM : uint8_t {
   TMP112_ADDR_A0_to_SCL = 0x4B
 };
 
+const static float TMP112_degC_per_int = 0.0625; // the degrees Celsius per integer step (resolution) of this sensor
+
 //// TMP112 constants:
 // output registers:
 #define TMP112_TEMP 0x00    // (R) temperature register
@@ -189,7 +191,7 @@ class TMP112_thijs : public _TMP112_thijs_base
    * @param is13bit (optional) whether the sensor is in Extended Mode (13bit mode). Measurement data has an identifier bit, so no strict need to specify
    * @return temperature measurement in degrees Celsius
    */
-  float getTemp(bool is13bit=false) { return((float)getTempInt(is13bit) * 0.0625); }
+  float getTemp(bool is13bit=false) { return((float)getTempInt(is13bit) * TMP112_degC_per_int); }
 
   // thresholds (for Alert (and thermostat) purposes):
   TMP112_ERR_RETURN_TYPE setThighInt(int16_t newValue, bool is13bit=false) { return(writeInt(TMP112_THIGH, newValue, is13bit)); }
@@ -200,14 +202,14 @@ class TMP112_thijs : public _TMP112_thijs_base
    * @param is13bit whether the sensor is in Extended Mode (13bit mode). Measurement data has an identifier bit, so no strict need to specify
    * @return (bool or esp_err_t or i2c_status_e, see on defines at top) whether it wrote successfully
    */
-  TMP112_ERR_RETURN_TYPE setThigh(float newValue, bool is13bit=false) { return(setThighInt(newValue * 16, is13bit)); } // temp in celsius divide by 0.0625 (a.k.a. multiply by 16)
+  TMP112_ERR_RETURN_TYPE setThigh(float newValue, bool is13bit=false) { return(setThighInt(newValue * 16, is13bit)); } // temp in celsius divide by TMP112_degC_per_int (a.k.a. multiply by 16)
   /**
    * set the Low temperature threshold (from a float)
    * @param newValue the desired temperature threshold (no safety checks performed in this function)
    * @param is13bit whether the sensor is in Extended Mode (13bit mode). Measurement data has an identifier bit, so no strict need to specify
    * @return (bool or esp_err_t or i2c_status_e, see on defines at top) whether it wrote successfully
    */
-  TMP112_ERR_RETURN_TYPE setTlow(float newValue, bool is13bit=false) { return(setTlowInt(newValue * 16, is13bit)); } // temp in celsius divide by 0.0625 (a.k.a. multiply by 16)
+  TMP112_ERR_RETURN_TYPE setTlow(float newValue, bool is13bit=false) { return(setTlowInt(newValue * 16, is13bit)); } // temp in celsius divide by TMP112_degC_per_int (a.k.a. multiply by 16)
   uint16_t getThighInt(bool is13bit=false) { return(requestReadInt(TMP112_THIGH, is13bit)); } // just a macro
   uint16_t getTlowInt(bool is13bit=false) { return(requestReadInt(TMP112_TLOW, is13bit)); } // just a macro
   /**
@@ -215,13 +217,13 @@ class TMP112_thijs : public _TMP112_thijs_base
    * @param is13bit whether the sensor is in Extended Mode (13bit mode). Measurement data has an identifier bit, so no strict need to specify
    * @return temperature threshold value in degrees Celsius
    */
-  float getThigh(bool is13bit=false) { return((float)getThighInt(is13bit) * 0.0625); } // just a macro
+  float getThigh(bool is13bit=false) { return((float)getThighInt(is13bit) * TMP112_degC_per_int); } // just a macro
   /**
    * retrieve the Low temperature threshold
    * @param is13bit whether the sensor is in Extended Mode (13bit mode). Measurement data has an identifier bit, so no strict need to specify
    * @return temperature threshold value in degrees Celsius
    */
-  float getTlow(bool is13bit=false) { return((float)getTlowInt(is13bit) * 0.0625); } // just a macro
+  float getTlow(bool is13bit=false) { return((float)getTlowInt(is13bit) * TMP112_degC_per_int); } // just a macro
 
   // editing the conf register can be done using the functions below, or you can do something manually like: "writeBytes(TMP112_CONF, confRawBytes, 2)"
   // MSByte of CONF register:
@@ -350,9 +352,9 @@ class TMP112_thijs : public _TMP112_thijs_base
       Serial.print("Convertsion Rate: "); Serial.print(CRbits); Serial.print(" = "); Serial.println(CRbitsToThreshold[CRbits]);
       // also print Thigh and Tlow (assuming 'is13bit' is working correctly):
       int16_t ThighInt = getThighInt(is13bit); // assume that, since the first reading went successfully, this one will as well
-      Serial.print("Thigh threshold: "); Serial.print(ThighInt); Serial.print(" = "); Serial.println((float)ThighInt * 0.0625);
+      Serial.print("Thigh threshold: "); Serial.print(ThighInt); Serial.print(" = "); Serial.println((float)ThighInt * TMP112_degC_per_int);
       int16_t TlowInt = getTlowInt(is13bit); // assume that, since the first reading went successfully, this one will as well
-      Serial.print("Tlow threshold: "); Serial.print(TlowInt); Serial.print(" = "); Serial.println((float)TlowInt * 0.0625);
+      Serial.print("Tlow threshold: "); Serial.print(TlowInt); Serial.print(" = "); Serial.println((float)TlowInt * TMP112_degC_per_int);
     } else {
       Serial.println("TMP112 failed to read CONF register!");
     }
@@ -387,7 +389,7 @@ class TMP112_thijs : public _TMP112_thijs_base
    * @param is13bit whether the sensor is in Extended Mode (13bit mode). Only measurement data has an identifier bit
    * @return temperature measurement in degrees Celsius
    */
-  float onlyReadFloat(bool is13bit=false) { return((float)onlyReadInt(is13bit) * 0.0625); }
+  float onlyReadFloat(bool is13bit=false) { return((float)onlyReadInt(is13bit) * TMP112_degC_per_int); }
 };
 
 #endif  // TMP112_thijs_h
